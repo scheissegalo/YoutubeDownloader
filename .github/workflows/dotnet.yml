@@ -34,16 +34,21 @@ jobs:
           # Fetch tags from the repository
           git fetch --tags
           
-          # Get the latest tag from Git
-          LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          # Get the latest tag from Git, ensuring we strip any non-semantic versioning prefix
+          LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1` | grep -oP 'v\d+\.\d+\.\d+$')
           
-          # If there's no tag yet, start with 1.0.0
+          # Check if a semantic version was found; if not, default to v1.0.0
           if [ -z "$LATEST_TAG" ]; then
-            echo "No tags found. Starting with 1.0.0"
-            LATEST_TAG="1.0.0"
+            echo "No semantic version tags found. Starting with v1.0.0"
+            LATEST_TAG="v1.0.0"
+          else
+            # Strip the leading 'v' to handle the version numerically
+            LATEST_TAG=${LATEST_TAG:1}
           fi
           
-          # Split the tag into major, minor, and patch
+          echo "Latest semantic version tag: $LATEST_TAG"
+          
+          # Split the tag into major, minor, and patch components
           IFS='.' read -ra VERSION <<< "$LATEST_TAG"
           MAJOR=${VERSION[0]}
           MINOR=${VERSION[1]}
@@ -52,8 +57,8 @@ jobs:
           # Increment the patch version
           PATCH=$((PATCH+1))
           
-          # Combine them back
-          NEXT_VERSION="$MAJOR.$MINOR.$PATCH"
+          # Combine them back with 'v' prefix
+          NEXT_VERSION="v$MAJOR.$MINOR.$PATCH"
           echo "Next version: $NEXT_VERSION"
           
           # Set the next version as an output variable
