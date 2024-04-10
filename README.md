@@ -1,5 +1,6 @@
 # YoutubeDownloader
-Detects youtube links in clipboard, downloads and converts to MP3 all in one go
+Detects youtube links in clipboard, downloads and converts to MP3 all in one go. 
+Linux x64 only.
 
 ## Features
 - Gui
@@ -21,3 +22,8 @@ chmod +x YoutubeDownloader
 ./YoutubeDownloader
 ```
 or just double click
+
+## Todo
+- Auto Updates from github
+- Nicer GUI
+- Option to set download directory
