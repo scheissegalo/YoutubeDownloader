@@ -24,9 +24,9 @@ jobs:
       - name: Publish
         run: dotnet publish --configuration Release --no-restore --output publish/
         
-      # Optional: Create a tarball or zip of the output
       - name: Archive production artifacts
-        run: tar -cvzf YoutubeDownloader.tar.gz -C publish/ .
+        run: |
+          tar -cvzf YoutubeDownloader.tar.gz -C publish/ YoutubeDownloader
 
       - name: Create Release
         id: create_release
@@ -34,8 +34,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}  # Setting the environment variable for authentication
         with:
-          tag_name: YoutubeDownloder-v1.0.0
-          release_name: Release YoutubeDownloder-v1.0.0
+          tag_name: YoutubeDownloder-v1.0.1
+          release_name: Release YoutubeDownloder-v1.0.1
           draft: false
           prerelease: false
 
