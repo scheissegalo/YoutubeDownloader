@@ -65,8 +65,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}  # Setting the environment variable for authentication
         with:
-          tag_name: YoutubeDownloader-v${{ steps.calculate_version.outputs.next_version }}
-          release_name: Release YoutubeDownloader-v${{ steps.calculate_version.outputs.next_version }}
+          tag_name: ${{ steps.calculate_version.outputs.next_version }}
+          release_name: Release ${{ steps.calculate_version.outputs.next_version }}
           draft: false
           prerelease: false
 
