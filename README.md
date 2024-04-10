@@ -9,7 +9,7 @@ Linux x64 only.
 Remember to install xclip, yt-dlp and ffmpeg or execute setup.sh before using this.
 
 ## Installation
-```bash
+```shell
 git clone https://github.com/scheissegalo/YoutubeDownloader
 cd YoutubeDownloader
 chmod +x setup.sh
@@ -17,7 +17,7 @@ chmod +x setup.sh
 ```
 
 ## Usage
-```
+```shell
 chmod +x YoutubeDownloader
 ./YoutubeDownloader
 ```
