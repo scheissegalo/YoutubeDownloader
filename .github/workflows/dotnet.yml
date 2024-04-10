@@ -34,8 +34,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}  # Setting the environment variable for authentication
         with:
-          tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
+          tag_name: YoutubeDownloder-v1.0.0
+          release_name: Release YoutubeDownloder-v1.0.0
           draft: false
           prerelease: false
 
