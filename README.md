@@ -10,3 +10,10 @@ cd YoutubeDownloader
 chmod +x setup.sh
 ./setup.sh
 ```
+
+## Usage
+```
+chmod +x YoutubeDownloader
+./YoutubeDownloader
+```
+or just double click
