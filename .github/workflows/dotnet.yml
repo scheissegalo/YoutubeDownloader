@@ -27,6 +27,37 @@ jobs:
       - name: Archive production artifacts
         run: |
           tar -cvzf YoutubeDownloader.tar.gz -C publish/ YoutubeDownloader
+      
+      - name: Calculate Next Version
+        id: calculate_version
+        run: |
+          # Fetch tags from the repository
+          git fetch --tags
+          
+          # Get the latest tag from Git
+          LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          
+          # If there's no tag yet, start with 1.0.0
+          if [ -z "$LATEST_TAG" ]; then
+            echo "No tags found. Starting with 1.0.0"
+            LATEST_TAG="1.0.0"
+          fi
+          
+          # Split the tag into major, minor, and patch
+          IFS='.' read -ra VERSION <<< "$LATEST_TAG"
+          MAJOR=${VERSION[0]}
+          MINOR=${VERSION[1]}
+          PATCH=${VERSION[2]}
+          
+          # Increment the patch version
+          PATCH=$((PATCH+1))
+          
+          # Combine them back
+          NEXT_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "Next version: $NEXT_VERSION"
+          
+          # Set the next version as an output variable
+          echo "::set-output name=next_version::$NEXT_VERSION"
 
       - name: Create Release
         id: create_release
@@ -34,8 +65,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}  # Setting the environment variable for authentication
         with:
-          tag_name: YoutubeDownloder-v1.0.1
-          release_name: Release YoutubeDownloder-v1.0.1
+          tag_name: YoutubeDownloader-v${{ steps.calculate_version.outputs.next_version }}
+          release_name: Release YoutubeDownloader-v${{ steps.calculate_version.outputs.next_version }}
           draft: false
           prerelease: false
 
