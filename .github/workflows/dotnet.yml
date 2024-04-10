@@ -1,8 +1,32 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - master  # Adjust this as necessary, e.g., to tags instead of main
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Previous steps remain unchanged
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0'  # Specify your .NET version here
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish --configuration Release --no-restore --output publish/
+        
+      # Optional: Create a tarball or zip of the output
+      - name: Archive production artifacts
+        run: tar -cvzf YoutubeDownloader.tar.gz -C publish/ .
 
       - name: Create Release
         id: create_release
